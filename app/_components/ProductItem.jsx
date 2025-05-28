@@ -1,10 +1,13 @@
 import { AlignLeft } from "lucide-react";
 import Image from 'next/image';
-import React from 'react'
-
+import React from 'react';
+import Link from "next/link";
 const ProductItem = ({ item }) => {
   return (
-    <div className="bg-gray-50 rounded-lg hover:border border-primary hover:shadow-md hover:cursor-pointer">
+    <Link
+      href={`/product-details/${item.id}`}
+      className="bg-gray-50 rounded-lg hover:border border-primary hover:shadow-md hover:cursor-pointer"
+    >
       <Image
         className="rounded-t-lg object-contain h-[150px] w-full shadow-4xl"
         src={item.image || "/fallback.jpg"}
@@ -22,7 +25,7 @@ const ProductItem = ({ item }) => {
         </div>
         <h3>{item.price ? `${item.price}$` : "No price"}</h3>
       </div>
-    </div>
+    </Link>
   );
 };
 
