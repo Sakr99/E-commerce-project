@@ -2,20 +2,29 @@
 import { UserButton, useUser } from "@clerk/nextjs";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useCart } from "../context/CartContext";
 const Header = () => {
   const [isLoggedIn , setIsLoggedIn]= useState(false)
   const { user } = useUser();
-  useEffect(()=>{
+  const { cartItems } = useCart();
+    useEffect(()=>{
 setIsLoggedIn(window.location.href.toString().includes("sign-in"))
   },[])
-  return !isLoggedIn && (
+  return (
+    !isLoggedIn && (
       <>
         <header className="bg-white shadow-2xl">
           <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 ">
             <div className="flex h-16 items-center justify-between">
-              <div className="md:flex md:items-center md:gap-12">
-                <Image src="/logo.svg" alt="logo" width={200} height={200} />
+              <div className="">
+                <Image
+                  src="/logo-header.svg"
+                  alt="logo"
+                  width={40}
+                  height={40}
+                />
               </div>
 
               <div className="hidden md:block">
@@ -75,28 +84,32 @@ setIsLoggedIn(window.location.href.toString().includes("sign-in"))
               <div className="flex items-center gap-4">
                 {!user ? (
                   <div className="sm:flex sm:gap-4">
-                    <a
+                    <Link
                       className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-primary-hover "
                       href="/sign-in"
                     >
                       Login
-                    </a>
+                    </Link>
 
                     <div className="hidden sm:flex">
-                      <a
+                      <Link
                         className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-primary hover:bg-gray-400 hover:text-gray-50"
                         href="/sign-up"
                       >
                         Register
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-10 ">
-                    <h2 className="flex items-center gap-2 cursor-pointer ">
-                      <ShoppingCart />
-                      (0)
-                    </h2>
+                  <div className="flex items-center gap-10 cursor-pointer ">
+                    <div className="relative">
+                      <ShoppingCart className="w-6 h-6" />
+                      {cartItems.length > 0 && (
+                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                          {cartItems.length}
+                        </span>
+                      )}
+                    </div>
                     <UserButton />
                   </div>
                 )}
@@ -124,7 +137,8 @@ setIsLoggedIn(window.location.href.toString().includes("sign-in"))
           </div>
         </header>
       </>
-    );
+    )
+  );
 };
 
 export default Header;
