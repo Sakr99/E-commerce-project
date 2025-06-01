@@ -1,32 +1,33 @@
-import { AlignLeft } from "lucide-react";
-import Image from 'next/image';
-import React from 'react';
+import React from "react";
+import Image from "next/image";
+import { List } from "lucide-react";
 import Link from "next/link";
-const ProductItem = ({ item }) => {
+function ProductItem({ product }) {
   return (
     <Link
-      href={`/product-details/${item.id}`}
-      className="bg-gray-50 rounded-lg hover:border border-primary hover:shadow-md hover:cursor-pointer"
+      href={`/product-details/${product?.id}`}
+      className="p-1 border-teal-400 rounded-lg hover:border hover:shadow-md hover:cursor-pointer"
     >
       <Image
-        className="rounded-t-lg object-contain h-[150px] w-full shadow-4xl"
-        src={item.image || "/fallback.jpg"}
-        alt={item.title || "product image"}
+        src={product?.image.url}
+        alt="banner-card"
         width={400}
         height={350}
+        className="rounded-t-lg h-[170px] object-cover"
       />
-      <div className="flex justify-between p-2">
-        <div>
-          <h2 className="text-lg line-clamp-1">{item.title || "No title"}</h2>
-          <h2 className="text-sm items-center text-gray-400 flex gap-1">
-            <AlignLeft />
-            {item.category || "No category"}
+      <div className="flex items-center justify-between p-3 rounded-b-lg bg-gray-50">
+        <div className="">
+          <h2 className="text-[12px] font-medium line-clamp-1">
+            {product?.title}
+          </h2>
+          <h2 className="text-[10px] text-gray-400 flex  gap-1 items-center">
+            <List className="w-4 h-4" /> {product?.category}
           </h2>
         </div>
-        <h3>{item.price ? `${item.price}$` : "No price"}</h3>
+        <h2>{product?.price}</h2>
       </div>
     </Link>
   );
-};
+}
 
 export default ProductItem;

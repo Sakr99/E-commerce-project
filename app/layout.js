@@ -1,12 +1,10 @@
 import "./globals.css";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
-import { CartContextProvider } from "./context/CartContext";
-import { Roboto} from "next/font/google";
-import {
-  ClerkProvider
-} from "@clerk/nextjs";
-const inter = Roboto({ subsets: ["latin"] , weight: "400"  });
+import { CartContextProvider } from "./_context/CartContext";
+import { Roboto } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+const inter = Roboto({ subsets: ["latin"], weight: "400" });
 export const metadata = {
   title: "Body Store",
   description: `This e-commerce website is a fully responsive, user-friendly online store designed to provide customers with a seamless shopping experience. Built with modern web technologies such as React.js / Next.js, Tailwind CSS, and integrated with secure payment gateways, the platform offers a scalable solution for selling products online.

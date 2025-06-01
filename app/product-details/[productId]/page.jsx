@@ -1,57 +1,54 @@
 "use client";
-
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import BreadCrumb from "./_components/BreadCrumb";
-import ProductBaneer from "./_components/ProductBaneer";
+import ProductApis from "../../_utils/ProductApis";
+import React, { useEffect, useState } from "react";
+import ProductBanner from "./_components/ProductBanner"; 
 import ProductInfo from "./_components/ProductInfo";
-import { usePathname } from "next/navigation";
+import ProductList from "../../_components/ProductList";
+import { usePathname, useParams } from "next/navigation";
+import BreadCrumb from "./_components/BreadCrumb";
 
-const ProductDetails = () => {
-  const params = useParams();
-  const { productId } = params;
+function ProductDetails() {
   const path = usePathname();
+  const params = useParams();
+  const productId = params.productId;
 
-  const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  const fetchID = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `https://fakestoreapi.com/products/${productId}`
-      );
-      setProduct(response.data);
-    } catch (error) {
-      console.error("Error fetching product:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [productDetails, setProductDetails] = useState({});
+  const [productList, setProductList] = useState([]);
 
   useEffect(() => {
-    if (productId) fetchID();
+    if (productId) getProductById_();
   }, [productId]);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <p>Loading...</p>
-      </div>
+  const getProductById_ = () => {
+    ProductApis.getProductById(productId).then((res) => {
+      console.log("product item ", res.data.data);
+      setProductDetails(res.data.data);
+      getProductListByCategory(res.data.data);
+    });
+  };
+
+  const getProductListByCategory = (product) => {
+    ProductApis.getProductsByCategory(product?.attributes.category).then(
+      (res) => {
+        console.log(res?.data?.data);
+        setProductList(res?.data?.data);
+      }
     );
-  }
+  };
 
   return (
-    <div className="px-4 md:px-28 py-10">
+    <div className="px-10 py-8 md:px-28">
       <BreadCrumb path={path} />
-      <hr />
-      <div className="flex flex-col md:flex-row gap-10 mt-5 justify-center items-center">
-        <ProductBaneer prodctImage={product} />
-        <ProductInfo prodctInfo={product} />
+      <div className="grid justify-around grid-cols-1 gap-5 mt-10 sm:gap-0 sm:grid-cols-2">
+        <ProductBanner product={productDetails} />
+        <ProductInfo product={productDetails} />
+      </div>
+      <div>
+        <h2 className="mt-24 mb-4 text-xl">Similar Products</h2>
+        <ProductList productList={productList} />
       </div>
     </div>
   );
-};
+}
 
 export default ProductDetails;

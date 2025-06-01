@@ -1,27 +1,33 @@
-"use client"
-import { useEffect, useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import ProductList from "./ProductList";
-import axios from "axios";
-
-const ProductSection = () => {
-const [ProductData, setProductData] = useState([]);
-useEffect(() => {
-  const fetchProduct = async () => {
-    try {
-      const response = await axios.get("https://fakestoreapi.com/products");
-      setProductData(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching movies:", error);
-    }
+import ProductApis from "../_utils/ProductApis";
+import { ArrowRight } from "lucide-react";
+function ProductSection() {
+  const [productList, setProductList] = useState([]);
+  useEffect(() => {
+    getLatestProducts_();
+  }, []);
+  const getLatestProducts_ = () => {
+    ProductApis.getLatestProducts().then((res) => {
+      console.log(res.data.data);
+      setProductList(res.data.data);
+    });
   };
 
-  fetchProduct();
-}, []);
   return (
     <div className="px-10 md:px-20">
-      <ProductList productList={ProductData} />
-      
+      <h2 className="font-bold text-[20px] my-3">
+        Brand New
+        <span
+          className="font-normal text-[14px]
+         float-right text-primary flex 
+         items-center cursor-pointer hover:text-teal-600"
+        >
+          View All Collection <ArrowRight className="h-4" />{" "}
+        </span>
+      </h2>{" "}
+      <ProductList productList={productList} />
     </div>
   );
 }

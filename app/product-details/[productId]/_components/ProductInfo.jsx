@@ -1,32 +1,78 @@
-import React from "react";
-import { AlignLeft, ShoppingCart, Star } from "lucide-react";
-import { useCart } from "../../../context/CartContext";
-const ProductInfo = ({ prodctInfo }) => {
-  const { addToCart } = useCart();
-
+"use client";
+import React, { useContext } from "react";
+import { ShoppingCart, BadgeCheck, AlertOctagon } from "lucide-react";
+import SkeletonProductInfo from "./SkeletonProductInfo";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import CartApis from "../../../_utils/CartApis";
+import { CartContext } from "../../../_context/CartContext";
+function ProductInfo({ product }) {
+  const { user } = useUser();
+  const router = useRouter();
+  const { cart, setCart } = useContext(CartContext);
+  const handleAddToCart = () => {
+    if (!user) {
+      router.push("/sign-in");
+    } else {
+      /*logic to add to cart*/
+      const data = {
+        data: {
+          username: user.fullName,
+          email: user.primaryEmailAddress.emailAddress,
+          products: [product?.id],
+        },
+      };
+      CartApis.addToCart(data)
+        .then((res) => {
+          console.log("cart created successfully", res.data.data);
+          setCart((oldCart) => [
+            ...oldCart,
+            {
+              id: res?.data?.data?.id,
+              product,
+            },
+          ]);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    }
+  };
   return (
     <div>
-      <h2 className="text-[40px] mb-2">{prodctInfo?.title}</h2>
-      <h2 className="text-[15px] items-center text-gray-500 flex gap-1">
-        <AlignLeft />
-        {prodctInfo?.category}
-      </h2>
-      <h2 className=" text-[15px] mt-5">{prodctInfo?.description}</h2>
-      <h2 className=" text-primary text-[32px] mt-3">
-        {prodctInfo?.price} <span className="text-[25px]">$</span>
-      </h2>
-      <div className="flex justify-between gap-5 md:gap-18 ">
-        <button
-          onClick={() => addToCart(prodctInfo)}
-          className="bg-primary hover:bg-primary-hover md:text-[25px] text-[16px] text-white hover:text-black cursor-pointer rounded-full w-1/2 justify-center items-center px-2 py-2  md:px-8 md:py-4  flex gap-2 mt-5 "
-        >
-          Add To Cart <ShoppingCart />
-        </button>
-        <button className="bg-amber-500 hover:bg-amber-200 md:text-[25px] text-[16px] text-white hover:text-black cursor-pointer rounded-full w-1/2 justify-center items-center px-2 py-2  md:px-8 md:py-4 line-clamp-1  flex gap-2 mt-5 ">
-          Add To Favourites <Star />
-        </button>
-      </div>
+      {product?.id ? (
+        <div>
+          <h2 className="text-[20px]">{product?.title}</h2>
+          <h2 className="text-[15px] text-gray-400">
+            {product?.category}
+          </h2>
+          <h2 className="text-[11px] mt-2">
+            {product?.description[0]?.children[0].text}
+          </h2>
+          <h2 className="text-[11px] text-gray-500 flex gap-2 mt-2 items-center">
+            {product?.attributes?.instantDelivery ? (
+              <BadgeCheck className="w-5 h-5 text-green-500" />
+            ) : (
+              <AlertOctagon />
+            )}{" "}
+            Eligible For Instant Delivery
+          </h2>
+          <h2 className="text-[24px] text-primary mt-2">
+            $ {product?.attributes?.price}
+          </h2>
+
+          <button
+            onClick={() => handleAddToCart()}
+            className="flex gap-2 p-2 text-white rounded-lg bg-primary hover:bg-teal-600"
+          >
+            <ShoppingCart /> Add To Cart
+          </button>
+        </div>
+      ) : (
+        <SkeletonProductInfo />
+      )}
     </div>
-  ); };
+  );
+}
 
 export default ProductInfo;
