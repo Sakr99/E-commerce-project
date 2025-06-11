@@ -1,12 +1,11 @@
 import React from "react";
 import Image from "next/image";
 function ProductBanner({ product }) {
-  console.log(product);
   return (
     <div>
-      {product?.image.url ? (
+      {product?.image?.url ? (
         <Image
-          src={product?.image.url}
+          src={product?.image?.url}
           alt="product-details-banner"
           width={400}
           height={400}
