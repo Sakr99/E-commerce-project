@@ -6,10 +6,12 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import CartApis from "../../../_utils/CartApis";
 import { CartContext } from "../../../_context/CartContext";
+
 function ProductInfo({ product }) {
   const { user } = useUser();
   const router = useRouter();
-//  const { cart, setCart } = useContext(CartContext);
+  const { addToCart } = useContext(CartContext); // ✅ استخدم addToCart بدل setCart
+
   const handleAddToCart = () => {
     if (!user) {
       router.push("/sign-in");
@@ -18,19 +20,24 @@ function ProductInfo({ product }) {
         data: {
           username: user.fullName,
           email: user.primaryEmailAddress.emailAddress,
-          products: [product?.documentId],
+          products: [product?.id],
         },
       };
+
       CartApis.addToCart(data)
         .then((res) => {
-          console.log("cart created successfully",res.data.data);
-          //setCart((oldCart) => [...oldCart,{id: res?.data?.data?.documentId,product,}, ]);
+          console.log("cart created successfully", res.data.data);
+          addToCart({
+            id: res?.data?.data?.documentId,
+            product,
+          });
         })
         .catch((error) => {
           console.log("error", error);
         });
     }
   };
+
   return (
     <div>
       {product?.documentId ? (
@@ -54,8 +61,8 @@ function ProductInfo({ product }) {
           <h2 className="text-[24px] text-primary mt-2">$ {product?.price}</h2>
 
           <button
-            onClick={() => handleAddToCart()}
-            className="flex gap-2 py-3 px-6 mt-5 text-[20px] items-center cursor-pointer text-white rounded-lg bg-primary hover:bg-primary-hover"
+            onClick={handleAddToCart}
+            className="flex gap-2 py-3 cursor-pointer px-6 mt-5 text-[20px] items-center text-white rounded-lg bg-primary hover:bg-primary-hover"
           >
             <ShoppingCart /> Add To Cart
           </button>

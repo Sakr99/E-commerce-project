@@ -8,32 +8,32 @@ import { CartContext } from "../_context/CartContext";
 import CartApis from "../_utils/CartApis";
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState();
-  // const [openCart, setOpenCart] = useState(false);
-  // const { cart, setCart } = useContext(CartContext);
-   useEffect(() => {
+  const [openCart, setOpenCart] = useState(false);
+  const { cartItems, setCart } = useContext(CartContext);
+  useEffect(() => {
     setIsLoggedIn(window?.location?.href.toString().includes("sign-in"));
   }, []);
 
   const { user } = useUser();
   useEffect(() => {
-    user
+    user && getCartItems();
   }, [user]);
-//  const getCartItems = () => {
-  //  CartApis.getUserCartItems(user.primaryEmailAddress.emailAddress).then(
-    //  (res) => {
-      //  console.log("response from cart items", res?.data?.data);
-        //res?.data?.data.forEach((citem) => {
-          //setCart((oldCart) => [
-            //...oldCart,
-            //{
-             // id: citem.id,
-             // product: citem?.attributes?.products?.data[0],
-            //},
-          //]);
-        //});
-      //}
-    //);
-  //};
+  const getCartItems = () => {
+    CartApis.getUserCartItems(user.primaryEmailAddress.emailAddress).then(
+      (res) => {
+        console.log("response from cart items", res?.data?.data);
+        res?.data?.data.forEach((citem) => {
+          setCart((oldCart) => [
+            ...oldCart,
+            {
+              id: citem.id,
+              product: citem?.attributes?.products?.data[0],
+            },
+          ]);
+        });
+      }
+    );
+  };
   return (
     !isLoggedIn && (
       <header className="bg-white">
@@ -110,10 +110,11 @@ function Header() {
               ) : (
                 <div className="flex items-center gap-5">
                   <h2 className="flex gap-1 cursor-pointer">
-                    <ShoppingCart />({/* {cart?.length}) */}
+                    <ShoppingCart onClick={() => setOpenCart(!openCart)} />(
+                    {cartItems?.length})
                   </h2>
                   <UserButton afterSignOutUrl="/" />
-                  {/* {openCart && <Cart />} */}
+                  {openCart}
                 </div>
               )}
 

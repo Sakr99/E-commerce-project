@@ -1,8 +1,7 @@
 import "./globals.css";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
-import { CartContextProvider } from "./_context/CartContext";
-import { Roboto } from "next/font/google";
+import { CartContextProvider } from "./_context/CartContext";import { Roboto } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 const inter = Roboto({ subsets: ["latin"], weight: "400" });
 export const metadata = {
