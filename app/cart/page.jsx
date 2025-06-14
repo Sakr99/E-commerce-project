@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 
 function Cart() {
   const router = useRouter();
-  const { cart, setCart } = useContext(CartContext);
+  const { cartItems, setCartItems } = useContext(CartContext);
   const getTotalAmount = () => {
     let totalAmount = 0;
-    cart.forEach((item) => {
-      totalAmount = totalAmount + Number(item?.product?.attributes?.price);
+    cartItems.forEach((item) => {
+      totalAmount = totalAmount + Number(item?.product?.price);
     });
     return totalAmount;
   };
@@ -18,8 +18,10 @@ function Cart() {
     CartApis.deleteCartItem(id)
       .then((res) => {
         if (res)
-          setCart((oldCart) =>
-            oldCart.filter((item) => item.id !== res?.data?.data?.id)
+          setCartItems((oldCart) =>
+            oldCart.filter(
+              (item) => item.documentId !== res?.data?.data?.documentId
+            )
           );
       })
       .catch((error) => {
@@ -39,35 +41,31 @@ function Cart() {
 
           <div className="mt-8">
             <ul className="space-y-4">
-              {cart?.map((item) => (
-                <li className="flex items-center gap-4">
+              {cartItems?.map((item) => (
+                <li key={item.id} className="flex items-center gap-4">
                   <img
-                    src={
-                      item?.product?.attributes?.banner?.data?.attributes?.url
-                    }
+                    src={item?.product?.image?.url}
                     alt=""
                     className="object-cover w-16 h-16 rounded"
                   />
 
                   <div>
                     <h3 className="text-sm text-gray-900">
-                      {item?.product?.attributes?.title}
+                      {item?.product?.title}
                     </h3>
 
                     <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
                       <div>
                         <dt className="inline">Category:</dt>
-                        <dd className="inline">
-                          {item?.product?.attributes?.category}
-                        </dd>
+                        <dd className="inline">{item?.product?.category}</dd>
                       </div>
                     </dl>
                   </div>
 
                   <div className="flex items-center justify-end flex-1 gap-2">
-                    ${item?.product?.attributes?.price}
+                    ${item?.product?.price}
                     <button
-                      onClick={() => deleteCartItemFromList(item?.id)}
+                      onClick={() => deleteCartItemFromList(item?.documentId)}
                       className="text-gray-600 transition hover:text-red-600"
                     >
                       <span className="sr-only">Remove item</span>

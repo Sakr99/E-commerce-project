@@ -4,7 +4,7 @@ const addToCart = (payload) => axiosClient.post("/carts", payload);
 
 const getUserCartItems = (email) =>
   axiosClient.get(
-    `carts?populate[products][populate]=image&filters[email][$eq]=${email}`
+    `/carts?filters[email][$eq]=${email}&populate[products][populate]=*`
   );
 
 const deleteCartItem = (id) => axiosClient.delete(`/carts/${id}`);

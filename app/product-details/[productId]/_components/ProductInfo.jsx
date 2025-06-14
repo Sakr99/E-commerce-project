@@ -10,7 +10,7 @@ import { CartContext } from "../../../_context/CartContext";
 function ProductInfo({ product }) {
   const { user } = useUser();
   const router = useRouter();
-  const { addToCart } = useContext(CartContext); // ✅ استخدم addToCart بدل setCart
+  const { addToCart } = useContext(CartContext); 
 
   const handleAddToCart = () => {
     if (!user) {
@@ -20,7 +20,7 @@ function ProductInfo({ product }) {
         data: {
           username: user.fullName,
           email: user.primaryEmailAddress.emailAddress,
-          products: [product?.id],
+          products: [product?.documentId],
         },
       };
 
