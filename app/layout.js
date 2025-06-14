@@ -1,6 +1,7 @@
 import "./globals.css";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
+import Announcement from "./_components/Announcement"
 import { CartContextProvider } from "./_context/CartContext";import { Roboto } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 const inter = Roboto({ subsets: ["latin"], weight: "400" });
@@ -28,6 +29,9 @@ Security: Implemented HTTPS, data validation, and secure storage of sensitive us
 This build ensures a scalable and maintainable codebase with modular components, reusable styles, and a clear folder structure. The project is deployed on a reliable platform (like Vercel, Netlify, or AWS) to guarantee uptime and fast delivery.
 
 `,
+  icons: {
+    icon: "/logo-header.svg",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -36,6 +40,7 @@ export default function RootLayout({ children }) {
       <html lang="en">
         <body className={inter.className}>
           <CartContextProvider>
+            <Announcement/>
             <Header />
             {children}
             <Footer />

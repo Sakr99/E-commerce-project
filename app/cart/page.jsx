@@ -14,20 +14,22 @@ function Cart() {
     });
     return totalAmount;
   };
-  const deleteCartItemFromList = (id) => {
-    CartApis.deleteCartItem(id)
-      .then((res) => {
-        if (res)
-          setCartItems((oldCart) =>
-            oldCart.filter(
-              (item) => item.documentId !== res?.data?.data?.documentId
-            )
-          );
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  };
+ const deleteCartItemFromList = (id) => {
+   CartApis.deleteCartItem(id)
+     .then((res) => {
+       if (res) {
+         const deletedId = res?.data?.data?.documentId || id;
+         setCartItems((oldCart) =>
+           oldCart.filter(
+             (item) => item.documentId !== deletedId && item.id !== deletedId
+           )
+         );
+       }
+     })
+     .catch((error) => {
+       console.log("error", error);
+     });
+ };
 
   return (
     <section>
@@ -65,7 +67,9 @@ function Cart() {
                   <div className="flex items-center justify-end flex-1 gap-2">
                     ${item?.product?.price}
                     <button
-                      onClick={() => deleteCartItemFromList(item?.documentId)}
+                      onClick={() =>
+                        deleteCartItemFromList(item?.documentId || item.id)
+                      }
                       className="text-gray-600 transition hover:text-red-600"
                     >
                       <span className="sr-only">Remove item</span>
@@ -122,4 +126,3 @@ function Cart() {
 }
 
 export default Cart;
-
