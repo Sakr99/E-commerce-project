@@ -6,7 +6,7 @@ const apiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 const axiosClient = axios.create({
   baseURL: `${apiUrl}/api`, 
   headers: {
-    Authorization: apiKey ? `Bearer ${apiKey}` : undefined,
+    Authorization: apiKey ? `Bearer${apiKey}` : undefined,
     "Content-Type": "application/json",
   },
 });
