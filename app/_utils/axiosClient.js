@@ -1,12 +1,13 @@
-const { default: axios } = require("axios");
+import axios from "axios";
 
 const apiKey = process.env.NEXT_PUBLIC_REST_API_KEY;
-const apiUrl = "http://localhost:1337/api";
+const apiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
 const axiosClient = axios.create({
-  baseURL: apiUrl,
+  baseURL: `${apiUrl}/api`, 
   headers: {
-    Authorization: `Bearer${apiKey}`,
+    Authorization: apiKey ? `Bearer ${apiKey}` : undefined,
+    "Content-Type": "application/json",
   },
 });
 
