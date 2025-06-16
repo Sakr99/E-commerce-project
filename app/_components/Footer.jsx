@@ -6,10 +6,8 @@ import Link from 'next/link';
 import React from 'react'
 
 const Footer = () => {
-  const { user } = useUser();
 
   return (
-    user && (
       <>
         <footer className="bg-gray-100 mt-[100px]">
           <div className="mx-auto max-w-screen-xl space-y-8 px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
@@ -333,7 +331,7 @@ const Footer = () => {
         </footer>
       </>
     )
-  );
+
 }
 
 export default Footer
