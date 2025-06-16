@@ -29,30 +29,30 @@ function Header() {
         <div className="flex items-center justify-end flex-1 md:justify-between">
           {/* Links (Desktop) */}
           <nav aria-label="Global" className="hidden md:block text-black">
-            <ul className="flex items-center gap-6 text-gray-500 text-sm">
+            <ul className="flex justify-center items-center gap-6 text-md">
               <li>
                 <Link href="/">
-                  <span className="hover:text-gray-500/75">Home</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/">
-                  <span className="hover:text-gray-500/75">Explore</span>
+                  <span className="hover:text-primary">Home</span>
                 </Link>
               </li>
               <li>
                 <Link href="/products">
-                  <span className="hover:text-gray-500/75">Projects</span>
+                  <span className="hover:text-primary">Projects</span>
                 </Link>
               </li>
               <li>
-                <Link href="/">
-                  <span className="hover:text-gray-500/75">About Us</span>
+                <Link href="/explore">
+                  <span className="hover:text-primary">Explore</span>
                 </Link>
               </li>
               <li>
-                <Link href="/">
-                  <span className="hover:text-gray-500/75">Contact Us</span>
+                <Link href="/about">
+                  <span className="hover:text-primary">About Us</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact">
+                  <span className="hover:text-primary">Contact Us</span>
                 </Link>
               </li>
             </ul>
@@ -110,32 +110,33 @@ function Header() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <nav className="md:hidden absolute top-16 left-0 w-full bg-white items-center shadow-md z-50">
-          <ul className="flex flex-col gap-4 p-4 text-gray-700 text-sm">
+          <ul className="flex flex-col items-center gap-6 text-md">
             <li>
               <Link href="/">
-                <span className="block hover:text-primary">Home</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/">
-                <span className="block hover:text-primary">Explore</span>
+                <span className="hover:text-primary">Home</span>
               </Link>
             </li>
             <li>
               <Link href="/products">
-                <span className="block hover:text-primary">Projects</span>
+                <span className="hover:text-primary">Projects</span>
               </Link>
             </li>
             <li>
-              <Link href="/">
-                <span className="block hover:text-primary">About Us</span>
+              <Link href="/explore">
+                <span className="hover:text-primary">Explore</span>
               </Link>
             </li>
             <li>
-              <Link href="/">
-                <span className="block hover:text-primary">Contact Us</span>
+              <Link href="/about">
+                <span className="hover:text-primary">About Us</span>
               </Link>
             </li>
+            <li>
+              <Link href="/contact">
+                <span className="hover:text-primary">Contact Us</span>
+              </Link>
+            </li>
+            <hr />
           </ul>
         </nav>
       )}
