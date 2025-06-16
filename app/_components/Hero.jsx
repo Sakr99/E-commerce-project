@@ -1,36 +1,34 @@
+import Link from 'next/link';
 import React from 'react'
 
 const Hero = () => {
   return (
     <>
-      <section className="bg-white lg:grid lg:h-screen ">
-        <div className="mx-auto w-screen max-w-screen-xl px-4 py-16 lg:px-8 lg:py-32">
-          <div className="mx-auto max-w-prose text-center">
-            <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
-              Boost your sales with
-              <strong className="text-primary"> smart shopping solutions</strong>
-            </h1>
+      <section className="overflow-hidden bg-[url(https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=2670&auto=format&fit=crop)] bg-cover bg-top bg-no-repeat">
+        <div className="bg-black/50 p-8 md:p-12 lg:px-16 lg:py-24">
+          <div className="text-center ltr:sm:text-left rtl:sm:text-right">
+            <div >
+              <p className="text-4xl font-bold text-white sm:text-5xl">
+                Boost your sales with
+              </p>
+              <p className="text-primary text-2xl font-bold sm:text-3xl ">
+                smart shopping solutions
+              </p>
+            </div>
 
-            <p className="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed">
+            <p className="hidden max-w-lg text-white/90 md:mt-6 md:block md:text-lg md:leading-relaxed">
               Discover seamless online shopping experiences designed to convert
               visitors into loyal customers. Elevate your brand with modern
               design, fast performance, and clear calls to action.
             </p>
 
-            <div className="mt-4 flex justify-center gap-4 sm:mt-6">
-              <a
-                className="inline-block rounded border border-primary bg-primary px-5 py-3 font-medium text-white shadow-sm transition-colors hover:bg-primary-hover"
+            <div className="mt-4 sm:mt-8">
+              <Link
                 href="/products"
+                className="inline-block rounded-full bg-primary  px-12 py-3 text-sm font-medium text-white transition hover:bg-primary-hover focus:ring-3 focus:ring-yellow-400 focus:outline-hidden"
               >
                 Get Started
-              </a>
-
-              <a
-                className="inline-block rounded border border-gray-200 px-5 py-3 font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 hover:text-gray-900"
-                href="#"
-              >
-                Learn More
-              </a>
+              </Link>
             </div>
           </div>
         </div>

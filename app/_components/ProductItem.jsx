@@ -11,8 +11,8 @@ function ProductItem({ product }) {
       <Image
         src={product?.image?.url}
         alt="banner-card"
-        width={400}
-        height={350}
+        width={500}
+        height={450}
         className="rounded-t-lg object-contain h-[150px] w-full shadow-4xl"
       />
       <div className="flex items-center justify-between p-3 rounded-b-lg bg-gray-50">
