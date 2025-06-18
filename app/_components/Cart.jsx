@@ -48,17 +48,17 @@ function Cart() {
       <div className="mt-5 space-y-4 text-center">
         <Link
           href="/cart"
-          className="block px-5 py-3 text-sm text-gray-100 transition bg-gray-700 rounded hover:bg-gray-600"
+          className="block px-5 py-3 text-sm text-gray-100 transition bg-primary rounded hover:bg-primary-hover"
         >
           View my cart ({cartItems?.length})
         </Link>
 
-        <a
+        <Link
           href="/"
-          className="inline-block text-sm text-gray-500 underline transition underline-offset-4 hover:text-gray-600"
+          className="inline-block text-sm text-sky-500 underline transition underline-offset-4 hover:text-sky-600"
         >
           Continue shopping
-        </a>
+        </Link>
       </div>
     </div>
   );

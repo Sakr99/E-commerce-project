@@ -108,9 +108,9 @@ function Cart() {
                     onClick={() =>
                       router.push(`/checkout?amount=${getTotalAmount()}`)
                     }
-                    className="block px-5 py-3 text-sm text-gray-100 transition bg-gray-700 rounded hover:bg-gray-600"
+                    className="block px-5 py-3 cursor-pointer text-sm text-black transition bg-green-500 rounded hover:bg-green-300"
                   >
-                    Checkout
+                    Buy Now
                   </button>
                 </div>
               </div>
